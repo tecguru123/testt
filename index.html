@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Baixe o App Magalu</title>
+    <link rel="icon" type="image/png" href="https://imgs.search.brave.com/TGpqqt4ohCB6_k2hnf2dhvQpqwjBCCoQvpZxJQOSWd0/a:fit:500:0:1:0/g:ce/aHR0cHM6Ly9yYWljaHUtdXBsb2Fkcy5zMy5hbWF6b25hd3MuY29tL2xvZ29fbWFnYXppbmUtbHVpemEtbG9qYS1vbmxpbmVfYXNJa3k0LnBuZw">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lucide/1.25.0/iconfont/lucide.min.css">
+    <style>
+        /* Variáveis de cores e tema */
+        :root {
+            --background: 220 40% 5%;
+            --foreground: 210 40% 98%;
+            --primary: 217.2 91.2% 59.8%;
+            --accent: 217.2 91.2% 59.8%;
+            --secondary: 217.2 32.6% 17.5%;
+            --muted-foreground: 215 20.2% 65.1%;
+            --radius: 0.5rem;
+        }
+
+        /* Reset e estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            border: 0;
+        }
+
+        body {
+            min-height: 100vh;
+            width: 100%;
+            background-color: hsl(var(--background));
+            color: hsl(var(--foreground));
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            line-height: 1.5;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Efeito de fundo animado - Lava Lamp */
+        .lava-lamp-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            opacity: 0.6;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.5;
+            animation: move 25s infinite alternate ease-in-out;
+        }
+
+        .blob:nth-child(1) {
+            background-color: hsl(var(--primary));
+            width: 50vmax;
+            height: 50vmax;
+            top: -10vh;
+            left: -10vw;
+            animation-duration: 25s;
+            animation-delay: -7s;
+        }
+
+        .blob:nth-child(2) {
+            background-color: hsl(var(--accent));
+            width: 40vmax;
+            height: 40vmax;
+            bottom: -15vh;
+            right: -10vw;
+            animation-duration: 30s;
+            animation-delay: -5s;
+        }
+
+        .blob:nth-child(3) {
+            background-color: hsl(var(--secondary));
+            width: 35vmax;
+            height: 35vmax;
+            bottom: 30vh;
+            left: 20vw;
+            animation-duration: 35s;
+            animation-delay: -15s;
+        }
+
+        @keyframes move {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(30px, -50px) scale(1.1);
+            }
+            66% {
+                transform: translate(-20px, 20px) scale(0.9);
+            }
+        }
+
+        /* Partículas de fundo */
+        .particles-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: hsl(var(--primary));
+            border-radius: 50%;
+            opacity: 0;
+            animation: particle-float 8s infinite;
+        }
+
+        @keyframes particle-float {
+            0% {
+                transform: translateY(0) translateX(0);
+                opacity: 0;
+                width: 3px;
+                height: 3px;
+            }
+            10% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(-100px) translateX(40px);
+                opacity: 0;
+                width: 1px;
+                height: 1px;
+            }
+        }
+
+        /* Cabeçalho */
+        header {
+            width: 100%;
+            padding: 1.5rem 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            height: 2.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .user-icon {
+            position: absolute;
+            right: 2rem;
+            width: 2.5rem;
+            height: 2.5rem;
+            color: hsl(var(--foreground));
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .user-icon:hover {
+            color: hsl(var(--primary));
+            transform: scale(1.1);
+        }
+
+        /* Conteúdo principal */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            z-index: 5;
+        }
+
+        .content {
+            max-width: 800px;
+            padding: 2rem;
+            border-radius: var(--radius);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: hsl(var(--foreground));
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.5), 0 0 10px rgba(255, 255, 255, 0.3);
+            line-height: 1.2;
+        }
+
+        p {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+            line-height: 1.5;
+            color: hsl(var(--muted-foreground));
+            max-width: 500px;
+        }
+
+        /* Botão de Download com Blobs */
+        .download-btn-container {
+            position: relative;
+            margin: 2rem 0;
+            display: inline-block;
+            width: 14rem;
+            height: 14rem;
+        }
+
+        .download-btn {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(145deg, hsl(217, 91%, 48%), hsl(217, 91%, 60%));
+            color: hsl(var(--foreground));
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            z-index: 2;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2), inset 0 0 15px rgba(255, 255, 255, 0.3);
+        }
+
+        /* Blobs dentro do botão */
+        .btn-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(20px);
+            opacity: 0.3;
+            animation: btn-blob-move 15s infinite alternate ease-in-out;
+            z-index: 1;
+        }
+
+        .btn-blob:nth-child(1) {
+            background-color: hsl(var(--primary));
+            width: 60px;
+            height: 60px;
+            top: 20px;
+            left: 20px;
+            animation-duration: 12s;
+            animation-delay: -2s;
+        }
+
+        .btn-blob:nth-child(2) {
+            background-color: hsl(var(--accent));
+            width: 40px;
+            height: 40px;
+            bottom: 30px;
+            right: 20px;
+            animation-duration: 15s;
+            animation-delay: -5s;
+        }
+
+        .btn-blob:nth-child(3) {
+            background-color: hsl(var(--secondary));
+            width: 50px;
+            height: 50px;
+            bottom: 20px;
+            left: 30px;
+            animation-duration: 18s;
+            animation-delay: -7s;
+        }
+
+        @keyframes btn-blob-move {
+            0%, 100% {
+                transform: translate(0, 0) scale(1);
+            }
+            33% {
+                transform: translate(10px, -15px) scale(1.2);
+            }
+            66% {
+                transform: translate(-5px, 10px) scale(0.8);
+            }
+        }
+
+        .download-btn i {
+            font-size: 3.5rem;
+            margin-bottom: 0.8rem;
+            z-index: 3;
+            transition: transform 0.3s ease;
+        }
+
+        .download-btn span {
+            z-index: 3;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            /* Estilização aprimorada para o texto */
+            font-weight: 900;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 0 10px rgba(255, 255, 255, 0.4);
+            background: linear-gradient(to bottom, #ffffff, #e0e0e0);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.05) translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3), 0 0 25px hsl(var(--primary) / 0.5), inset 0 0 20px rgba(255, 255, 255, 0.4);
+            background: linear-gradient(145deg, hsl(217, 91%, 55%), hsl(217, 91%, 65%));
+        }
+
+        .download-btn:hover i {
+            transform: translateY(-5px);
+        }
+
+        /* Efeito de pulso suave */
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(33, 150, 243, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 15px rgba(33, 150, 243, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(33, 150, 243, 0);
+            }
+        }
+
+        .download-btn {
+            animation: pulse 2s infinite;
+        }
+
+        /* Rodapé */
+        footer {
+            width: 100%;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            color: hsl(var(--foreground));
+            font-size: 0.9rem;
+        }
+
+        /* Media Queries para Responsividade */
+        @media (min-width: 640px) {
+            header {
+                padding: 1.5rem 2rem;
+            }
+            .logo {
+                height: 3rem;
+            }
+            .user-icon {
+                width: 2.8rem;
+                height: 2.8rem;
+                right: 2rem;
+            }
+            h1 {
+                font-size: 3.5rem;
+            }
+            p {
+                font-size: 1.2rem;
+            }
+            .download-btn-container {
+                width: 16rem;
+                height: 16rem;
+            }
+            .download-btn i {
+                font-size: 4rem;
+            }
+            .download-btn span {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 4rem;
+            }
+            .content {
+                padding: 2.5rem;
+            }
+            .download-btn-container {
+                width: 18rem;
+                height: 18rem;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            h1 {
+                font-size: 4.5rem;
+            }
+            .download-btn-container {
+                width: 20rem;
+                height: 20rem;
+            }
+        }
+
+        @media (min-width: 1280px) {
+            h1 {
+                font-size: 5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Efeito de fundo animado -->
+    <div class="lava-lamp-bg">
+        <div class="blob"></div>
+        <div class="blob"></div>
+        <div class="blob"></div>
+    </div>
+
+    <!-- Partículas de fundo -->
+    <div class="particles-bg" id="particles-bg"></div>
+
+    <!-- Cabeçalho -->
+    <header>
+        <img src="https://imgs.search.brave.com/YNO6FsLwSI3bWyfMGMojh25ma3vNG9AJFjzJQy5W1Ew/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9sb2dv/ZG93bmxvYWQub3Jn/L3dwLWNvbnRlbnQv/dXBsb2Fkcy8yMDE0/LzA2L21hZ2FsdS1s/b2dvLTEucG5n" alt="Logo Magalu" class="logo">
+        <i class="lucide-user-circle user-icon"></i>
+    </header>
+
+    <!-- Conteúdo principal -->
+    <main>
+        <div class="content">
+            <h1>Baixar Agora!</h1>
+            <p> Após instalar entre em sua conta e vá para a aba segurança e coloque seu codigo de procedimento .</p>
+            <div class="download-btn-container">
+                <a href="https://www.brasilcode.com.br/35-botoes-css-com-animacao/" class="download-btn">
+                    <div class="btn-blob"></div>
+                    <div class="btn-blob"></div>
+                    <div class="btn-blob"></div>
+                    <i class="lucide-download"></i>
+                    <span>baixar</span>
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer>
+        <p>© <span id="current-year"></span> MAGAZINE. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Atualiza o ano atual no rodapé
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // Criar partículas de fundo
+        const particlesContainer = document.getElementById('particles-bg');
+        for (let i = 0; i < 40; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            
+            // Posição aleatória
+            const x = Math.random() * 100;
+            const y = Math.random() * 100;
+            particle.style.left = `${x}%`;
+            particle.style.top = `${y}%`;
+            particle.style.animationDelay = `${Math.random() * 8}s`;
+            
+            // Tamanho aleatório
+            const size = Math.random() * 4 + 1;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            
+            particlesContainer.appendChild(particle);
+        }
+    </script>
+</body>
+</html>
